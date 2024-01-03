@@ -1,0 +1,38 @@
+<Project>
+    <PropertyGroup>
+        <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <DocumentationFile>$(OutDir)StyleCopDocumentation.xml</DocumentationFile>
+        <SlnGenSolutionFileFullPath>$(MSBuildProjectDirectory)\dotnet-starter.sln</SlnGenSolutionFileFullPath>
+        <SlnGenLaunchVisualStudio>false</SlnGenLaunchVisualStudio>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)'=='Release'">
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <AdditionalFiles Include="$(MSBuildThisFileDirectory)\stylecop.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="StyleCop.Analyzers">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.VisualStudio.SlnGen" />
+    </ItemGroup>
+
+    <PropertyGroup>
+        <PublishRootDir>$(MSBuildThisFileDirectory)\out</PublishRootDir>
+    </PropertyGroup>
+
+    <Target Name="PublishAssets" AfterTargets="Publish">
+        <ItemGroup>
+            <PublishedAssets Include="$(OutDir)\publish\**\*.*" />
+        </ItemGroup>
+        <Copy SourceFiles="@(PublishedAssets)"
+            DestinationFolder="$(PublishRootDir)\$(TargetName)\%(RecursiveDir)"
+            SkipUnchangedFiles="true" />
+    </Target>
+</Project>

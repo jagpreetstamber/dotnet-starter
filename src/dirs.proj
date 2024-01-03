@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.Build.Traversal">
+    <ItemGroup>
+        <ProjectReference Include="Vehicles\Vehicles.csproj" />
+    </ItemGroup>
+</Project>
